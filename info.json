@@ -1,0 +1,17 @@
+{
+  "abc123": {
+    "Name": "Astik",
+    "Class": "6E",
+    "Major": "NA"
+  },
+  "xyz123": {
+    "Name": "Jane Doe",
+    "Class": "8F",
+    "Major": "NA"
+  },
+  "ghi789": {
+    "Name": "Peter Jones",
+    "Class": "9C",
+    "Major": "History"
+  }
+}

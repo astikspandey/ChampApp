@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Editor</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+        }
+
+        #editor {
+            margin-bottom: 20px;
+        }
+
+        #editor input[type="text"],
+        #editor textarea,
+        #editor select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        #editor textarea {
+            height: 150px;
+        }
+
+        .wysiwyg-buttons button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            margin-right: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .wysiwyg-buttons button:hover {
+            background-color: #0056b3;
+        }
+
+        #editor button[onclick="createPost()"] {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        #editor button[onclick="createPost()"]:hover {
+            background-color: #218838;
+        }
+
+        #view-button {
+            background-color: #6c757d;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        #view-button:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Blog Editor</h1>
+        <button id="view-button" onclick="goToViewer()">View Blog</button>
+
+        <div id="editor">
+            <input type="text" id="post-title" placeholder="Post Title">
+            <select id="post-category">
+                <option value="General">General</option>
+                <option value="Technology">Technology</option>
+                <option value="Travel">Travel</option>
+                <option value="Food">Food</option>
+                <option value="Personal">Personal</option>
+            </select>
+            <div class="wysiwyg-buttons">
+                <button onclick="formatText('bold')"><b>B</b></button>
+                <button onclick="formatText('italic')"><i>I</i></button>
+                <button onclick="formatText('underline')"><u>U</u></button>
+            </div>
+            <textarea id="post-content" placeholder="Post Content"></textarea>
+            <input type="file" id="post-image" accept="image/*">
+            <button onclick="createPost()">Create Post</button>
+        </div>
+    </div>
+
+    <script>
+        function formatText(command) {
+            const contentInput = document.getElementById('post-content');
+            const start = contentInput.selectionStart;
+            const end = contentInput.selectionEnd;
+            const selectedText = contentInput.value.substring(start, end);
+            let replacementText = selectedText;
+
+            switch (command) {
+                case 'bold':
+                    replacementText = `<b>${selectedText}</b>`;
+                    break;
+                case 'italic':
+                    replacementText = `<i>${selectedText}</i>`;
+                    break;
+                case 'underline':
+                    replacementText = `<u>${selectedText}</u>`;
+                    break;
+            }
+
+            contentInput.value = contentInput.value.substring(0, start) + replacementText + contentInput.value.substring(end);
+            contentInput.focus();
+            contentInput.selectionStart = start;
+            contentInput.selectionEnd = start + replacementText.length;
+        }
+
+        function createPost() {
+            const title = document.getElementById('post-title').value;
+            const content = document.getElementById('post-content').value;
+            const category = document.getElementById('post-category').value;
+            const imageFile = document.getElementById('post-image').files[0];
+
+            if (title && content) {
+                if (imageFile) {
+                    getBase64(imageFile).then(base64Image => {
+                        const post = {
+                            title: title,
+                            content: content,
+                            category: category,
+                            image: base64Image,
+                            timestamp: new Date().getTime()
+                        };
+
+                        savePost(post);
+                        clearEditor();
+                    });
+                } else {
+                    const post = {
+                        title: title,
+                        content: content,
+                        category: category,
+                        timestamp: new Date().getTime()
+                    };
+
+                    savePost(post);
+                    clearEditor();
+                }
+            } else {
+                alert('Please enter both title and content.');
+            }
+        }
+
+        function getBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        function savePost(post) {
+            let posts = JSON.parse(localStorage.getItem('blogPosts')) || [];
+            posts.push(post);
+            localStorage.setItem('blogPosts', JSON.stringify(posts));
+        }
+
+        function clearEditor() {
+            document.getElementById('post-title').value = '';
+            document.getElementById('post-content').value = '';
+            document.getElementById('post-image').value = ''; // Clear the file input
+        }
+
+        function goToViewer() {
+            window.location.href = 'viewer.html';
+        }
+    </script>
+</body>
+</html>

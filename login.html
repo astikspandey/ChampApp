@@ -1,0 +1,324 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login with Google</title>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="load-env.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #eaf1fb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-container {
+      display: flex;
+      width: 900px;
+      height: 500px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+      border-radius: 24px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .login-left {
+      background: #1976d2;
+      color: #fff;
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      padding: 0;
+    }
+    .login-left h1 {
+      z-index: 2;
+      font-size: 2.5rem;
+      margin-top: 2rem;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      position: relative;
+    }
+    .login-left video {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 1;
+      z-index: 1;
+    }
+    .login-left .text-overlay {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .login-right {
+      width: 50%;
+      background: #f7faff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 30px;
+      position: relative;
+    }
+    .login-options {
+      width: 100%;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      align-items: center;
+    }
+    .email-login-box {
+      width: 100%;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(25, 118, 210, 0.07);
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: stretch;
+    }
+    .email-login-box input[type="email"] {
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #b6c6e3;
+      font-size: 1rem;
+      outline: none;
+      margin-bottom: 8px;
+    }
+    .email-login-box button {
+      background: #1976d2;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .email-login-box button:hover {
+      background: #1251a3;
+    }
+    .or-divider {
+      text-align: center;
+      color: #888;
+      font-size: 0.95rem;
+      margin: 0.5rem 0;
+      font-weight: 500;
+    }
+    #google-login {
+      display: flex;
+      justify-content: center;
+    }
+    /* Loading box styles */
+    .lock-loader {
+      width: 80px;
+      height: 120px;
+      position: relative;
+      margin: 40px auto 0 auto;
+      display: none; /* Hidden by default */
+    }
+    .lock-body {
+      width: 80px;
+      height: 80px;
+      background: #f3e5ab;
+      border: 4px solid #7b5e57;
+      border-radius: 12px 12px 16px 16px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.12);
+    }
+    .lock-shackle {
+      width: 48px;
+      height: 48px;
+      border: 6px solid #7b5e57;
+      border-bottom: none;
+      border-radius: 32px 32px 0 0;
+      position: absolute;
+      top: -38px;
+      left: 16px;
+      background: transparent;
+      z-index: 2;
+    }
+    .key {
+      width: 60px;
+      height: 16px;
+      background: #007bff;
+      border-radius: 8px;
+      position: absolute;
+      left: 10px;
+      bottom: 30px;
+      z-index: 3;
+      transform: rotate(-30deg);
+      animation: key-move 1.2s cubic-bezier(.7,1.7,.7,1.1) forwards;
+    }
+    .key-head {
+      width: 24px;
+      height: 24px;
+      background: #007bff;
+      border-radius: 50%;
+      position: absolute;
+      left: -12px;
+      top: -4px;
+    }
+    .key-hole {
+      width: 12px;
+      height: 12px;
+      background: #7b5e57;
+      border-radius: 50%;
+      position: absolute;
+      left: 34px;
+      top: 32px;
+      z-index: 4;
+    }
+    @keyframes key-move {
+      0% { left: -70px; bottom: 30px; opacity: 0; }
+      40% { left: 10px; bottom: 30px; opacity: 1; }
+      60% { left: 30px; bottom: 30px; }
+      80% { left: 30px; bottom: 30px; }
+      100% { left: 30px; bottom: 60px; opacity: 1; }
+    }
+    @keyframes unlock-shackle {
+      0% { transform: rotate(0deg);}
+      60% { transform: rotate(0deg);}
+      100% { transform: rotate(-45deg);}
+    }
+    .lock-shackle.unlocked {
+      animation: unlock-shackle 0.8s 1.2s forwards;
+    }
+    @media (max-width: 800px) {
+      .login-container { flex-direction: column; width: 98vw; height: auto; }
+      .login-left, .login-right { width: 100%; height: 250px; }
+      .login-right { padding: 30px 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-left">
+      <div class="text-overlay">
+        <h1>Login to success</h1>
+      </div>
+      <video src="loginpagebg.mp4" autoplay loop muted playsinline></video>
+    </div>
+    <div class="login-right">
+      <div class="login-options">
+        <form class="email-login-box" id="email-login-form" autocomplete="off">
+          <label for="email-input" style="font-weight:600;">Enter your email</label>
+          <input type="email" id="email-input" placeholder="you@example.com" required>
+          <button type="submit">Continue</button>
+        </form>
+        <div class="or-divider">or</div>
+        <div id="google-login"></div>
+      </div>
+      <div class="lock-loader" id="loading-box">
+        <div class="lock-shackle" id="lock-shackle"></div>
+        <div class="lock-body"></div>
+        <div class="key">
+          <div class="key-head"></div>
+        </div>
+        <div class="key-hole"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Always redirect to localhost:3002/dashboard.html
+    function getRedirectURL() {
+      return "http://localhost:3002/dashboard.html";
+    }
+
+    // Get admission number by email from id.json
+    async function getAdmissionNumberByEmail(email) {
+      try {
+        const response = await fetch('id.json');
+        const idMap = await response.json();
+        // idMap should be { "email1@example.com": "admission1", ... }
+        return idMap[email] || null;
+      } catch (e) {
+        console.error('Failed to fetch id.json', e);
+        return null;
+      }
+    }
+
+    // Show loading box
+    function showLoadingBox() {
+      document.getElementById('loading-box').style.display = 'block';
+      // Unlock the lock after 1.8s (just before redirect)
+      setTimeout(() => {
+        document.getElementById('lock-shackle').classList.add('unlocked');
+      }, 1800);
+    }
+
+    // Hide login options
+    function hideLoginOptions() {
+      document.querySelector('.login-options').style.display = 'none';
+    }
+
+    // Handle email login
+    document.getElementById('email-login-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const email = document.getElementById('email-input').value.trim().toLowerCase();
+      if (!email) return;
+      hideLoginOptions();
+      showLoadingBox();
+      const admission_number = await getAdmissionNumberByEmail(email);
+      setTimeout(() => {
+        if (admission_number) {
+          const baseRedirect = getRedirectURL();
+          const separator = baseRedirect.includes("?") ? "&" : "?";
+          const finalURL = `${baseRedirect}${separator}name=${encodeURIComponent(email.split('@')[0])}&email=${encodeURIComponent(email)}&admission_number=${encodeURIComponent(admission_number)}`;
+          window.location.href = finalURL;
+        } else {
+          document.getElementById('loading-box').style.display = 'none';
+          document.querySelector('.login-options').style.display = '';
+          alert("No admission number found for this email.");
+        }
+      }, 2000); // Show loading for 2 seconds
+    });
+
+    // Google login
+    function handleCredentialResponse(response) {
+      const decoded = JSON.parse(atob(response.credential.split('.')[1]));
+      const name = encodeURIComponent(decoded.name);
+      const email = decoded.email.toLowerCase();
+      hideLoginOptions();
+      showLoadingBox();
+      getAdmissionNumberByEmail(email).then(admission_number => {
+        setTimeout(() => {
+          const baseRedirect = getRedirectURL();
+          const separator = baseRedirect.includes("?") ? "&" : "?";
+          const finalURL = `${baseRedirect}${separator}name=${name}&email=${encodeURIComponent(email)}&admission_number=${encodeURIComponent(admission_number || "")}`;
+          window.location.href = finalURL;
+        }, 2000); // Show loading for 2 seconds
+      });
+    }
+
+    loadEnv().then(env => {
+      const clientId = env.VITE_GOOGLE_CLIENT_ID;
+      google.accounts.id.initialize({
+        client_id: clientId,
+        callback: handleCredentialResponse
+      });
+
+      google.accounts.id.renderButton(
+        document.getElementById("google-login"),
+        { theme: "outline", size: "large" }
+      );
+    }).catch(err => {
+      console.error("Failed to load env.local:", err);
+    });
+  </script>
+</body>
+</html>
