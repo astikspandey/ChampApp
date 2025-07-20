@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile | ChampApp</title>
+    <link rel="stylesheet" href="dashboard.css" />
+  </head>
+  <body>
+    <div class="profile-page">
+      <div class="profile-card">
+        <div class="profile-avatar" id="profileAvatar">
+          <label class="upload-label" for="avatarInput">Upload</label>
+          <input
+            type="file"
+            id="avatarInput"
+            accept="image/*"
+            style="display: none"
+          />
+        </div>
+        <div class="profile-details">
+          <div><strong>Name:</strong> Astik Pandey</div>
+          <div><strong>Admission Number:</strong> 3891</div>
+          <div><strong>Section:</strong> A</div>
+          <div><strong>Grade:</strong> 10</div>
+          <div><strong>Father's Name:</strong> Rajesh Pandey</div>
+          <div><strong>Mother's Name:</strong> Sunita Pandey</div>
+          <div><strong>Email:</strong> astikspandey@gmail.com</div>
+          <div><strong>Date of Birth:</strong> 2009-05-12</div>
+          <div><strong>Phone:</strong> +91-9876543210</div>
+          <div><strong>Address:</strong> 123, Main Street, City, State</div>
+          <div><strong>Blood Group:</strong> B+</div>
+          <div><strong>Roll Number:</strong> 17</div>
+          <div><strong>Nationality:</strong> Indian</div>
+          <div><strong>Emergency Contact:</strong> +91-9876543211</div>
+        </div>
+      </div>
+    </div>
+    <script>
+      // Avatar upload logic
+      const avatar = document.getElementById("profileAvatar");
+      const input = document.getElementById("avatarInput");
+      avatar.addEventListener("click", () => input.click());
+      input.addEventListener("change", function () {
+        if (this.files && this.files[0]) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            avatar.style.backgroundImage = `url('${e.target.result}')`;
+          };
+          reader.readAsDataURL(this.files[0]);
+        }
+      });
+    </script>
+  </body>
+</html>

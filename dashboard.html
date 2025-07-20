@@ -1,522 +1,271 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ChampApp</title>
-    <style>
-        /* Basic CSS Reset */
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: sans-serif;
-        }
-
-        /* Variables */
-        :root {
-            --primary: #007bff;
-            --secondary: #6c757d;
-            --success: #28a745;
-            --danger: #dc3545;
-            --warning: #ffc107;
-            --info: #17a2b8;
-            --light: #f8f9fa;
-            --dark: #343a40;
-            --gray: #6c757d;
-            --border-radius: 0.25rem;
-        }
-
-        /* General Styles */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        .container {
-            display: flex;
-            height: 100vh;
-        }
-
-        /* Sidebar Styles */
-        #sidebar {
-            width: 250px;
-            background-color: #343a40;
-            color: #fff;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        #sidebar.collapsed {
-            width: 80px;
-        }
-
-        #sidebar h1 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        #sidebar-menu {
-            flex-grow: 1;
-        }
-
-        .menu-item {
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            color: #fff;
-            text-decoration: none;
-            border-radius: var(--border-radius);
-            transition: background-color 0.3s ease;
-        }
-
-        .menu-item:hover,
-        .menu-item.active {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .menu-item i {
-            margin-right: 10px;
-        }
-
-        .menu-text {
-            flex-grow: 1;
-        }
-
-        .menu-badge {
-            background-color: var(--primary);
-            color: #fff;
-            padding: 4px 8px;
-            border-radius: 10px;
-            font-size: 0.75rem;
-        }
-
-        #toggle-sidebar {
-            background-color: transparent;
-            color: #fff;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            align-self: flex-start;
-        }
-
-        /* Header Styles */
-        #header {
-            background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        #header h2 {
-            font-size: 1.5rem;
-            margin: 0;
-        }
-
-        .user-menu {
-            display: flex;
-            align-items: center;
-        }
-
-        .user-menu button {
-            background-color: transparent;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .user-menu button i {
-            font-size: 1.2rem;
-        }
-
-        .dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            z-index: 10;
-            display: none;
-        }
-
-        .dropdown.active {
-            display: block;
-        }
-
-        .dropdown a {
-            display: block;
-            padding: 10px 20px;
-            color: #333;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-
-        .dropdown a:hover {
-            background-color: #f4f6f9;
-        }
-
-        /* Main Content Styles */
-        #main-content {
-            flex-grow: 1;
-            padding: 20px;
-        }
-
-        /* Dashboard Grid Styles */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .card {
-            background-color: #fff;
-            border-radius: var(--border-radius);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            margin: 0;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 0.35em 0.65em;
-            font-size: 0.75em;
-            font-weight: 700;
-            line-height: 1;
-            color: #fff;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: baseline;
-            border-radius: var(--border-radius);
-        }
-
-        .badge-primary {
-            background-color: var(--primary);
-        }
-
-        /* Button Styles */
-        .btn {
-            display: inline-block;
-            font-weight: 400;
-            color: #212529;
-            text-align: center;
-            vertical-align: middle;
-            cursor: pointer;
-            background-color: transparent;
-            border: 1px solid transparent;
-            padding: 0.375rem 0.75rem;
-            font-size: 1rem;
-            line-height: 1.5;
-            border-radius: var(--border-radius);
-            transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        }
-
-        .btn-primary {
-            color: #fff;
-            background-color: var(--primary);
-            border-color: var(--primary);
-        }
-
-        .btn-primary:hover {
-            color: #fff;
-            background-color: darken(var(--primary), 10%);
-            border-color: darken(var(--primary), 15%);
-        }
-
-        .btn-secondary {
-            color: #fff;
-            background-color: var(--secondary);
-            border-color: var(--secondary);
-        }
-
-        .btn-secondary:hover {
-            color: #fff;
-            background-color: darken(var(--secondary), 10%);
-            border-color: darken(var(--secondary), 15%);
-        }
-
-        .btn-sm {
-            padding: 0.25rem 0.5rem;
-            font-size: 0.875rem;
-            line-height: 1.5;
-            border-radius: var(--border-radius);
-        }
-
-        /* Table Styles */
-        .table-container {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 1rem;
-        }
-
-        th,
-        td {
-            padding: 0.75rem;
-            text-align: left;
-            border-bottom: 1px solid #dee2e6;
-        }
-
-        th {
-            background-color: #f8f9fa;
-            font-weight: 500;
-        }
-
-        /* Form Styles */
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-label {
-            display: inline-block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .form-input,
-        .form-select,
-        .form-textarea {
-            display: block;
-            width: 100%;
-            padding: 0.375rem 0.75rem;
-            font-size: 1rem;
-            line-height: 1.5;
-            color: #495057;
-            background-color: #fff;
-            background-clip: padding-box;
-            border: 1px solid #ced4da;
-            border-radius: var(--border-radius);
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        }
-
-        .form-input:focus,
-        .form-select:focus,
-        .form-textarea:focus {
-            color: #495057;
-            background-color: #fff;
-            border-color: var(--primary);
-            outline: 0;
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-        }
-
-        .form-textarea {
-            resize: vertical;
-        }
-
-        /* Empty State Styles */
-        .empty-state {
-            text-align: center;
-            padding: 2rem;
-            color: var(--gray);
-        }
-
-        .empty-state i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Mobile Styles */
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-            }
-
-            #sidebar {
-                width: 100%;
-                position: fixed;
-                top: 0;
-                left: 0;
-                z-index: 20;
-                height: 100vh;
-                transform: translateX(-100%);
-                transition: transform 0.3s ease;
-            }
-
-            #sidebar.active {
-                transform: translateX(0);
-            }
-
-            #main-content {
-                padding-top: 60px;
-            }
-
-            #toggle-mobile-sidebar {
-                display: block;
-                position: fixed;
-                top: 10px;
-                left: 10px;
-                background-color: var(--primary);
-                color: #fff;
-                border: none;
-                padding: 10px;
-                cursor: pointer;
-                border-radius: var(--border-radius);
-                z-index: 30;
-            }
-        }
-
-        #profile-button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-image: url('https://thumbs.dreamstime.com/b/default-avatar-profile-icon-social-media-user-vector-default-avatar-profile-icon-social-media-user-vector-portrait-176194876.jpg');
-            background-size: cover;
-            cursor: pointer;
-            border: none;
-            outline: none;
-        }
-
-        #user-info-modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            border: 1px solid #ccc;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-        }
-
-        #user-info-modal.show {
-            display: block;
-        }
-    </style>
-</head>
-<body>
-    <button id="profile-button" onclick="toggleUserInfoModal()"></button>
+    <link rel="stylesheet" href="dashboard.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body>
+    <button
+      id="profile-button"
+      onclick="toggleUserInfoModal()"
+      title="Show Profile"
+    ></button>
     <div id="user-info-modal">
-        <h2 id="modal-welcome-message"></h2>
-        <div id="login-info"></div>
-        <button onclick="toggleUserInfoModal()">Close</button>
+      <h2 id="modal-welcome-message"></h2>
+      <div id="login-info"></div>
+      <button id="close-profile-modal" onclick="toggleUserInfoModal()">
+        Close
+      </button>
     </div>
 
     <div class="container">
-        <!-- Sidebar -->
-        <aside id="sidebar">
-            <h1>ChampApp</h1>
-            <nav id="sidebar-menu">
-                <!-- Menu items will be dynamically added here -->
-            </nav>
-            <button id="toggle-sidebar">
-                <i data-lucide="arrow-left-circle"></i>
-            </button>
-        </aside>
+      <!-- Sidebar -->
+      <aside id="sidebar">
+        <h1>ChampApp</h1>
+        <nav class="sidebar-menu">
+          <button class="menu-item active" id="dashboard-link">
+            <i data-lucide="home"></i>
+            Dashboard
+          </button>
+          <button class="menu-item" id="profile-link">
+            <i data-lucide="user"></i>
+            Profile
+          </button>
+        </nav>
+      </aside>
 
-        <!-- Main Content -->
-        <main id="main-content">
-            <!-- Header -->
-            <header id="header">
-                <h2>Dashboard</h2>
-                <div class="user-menu">
-                    <button id="toggle-notifications">
-                        <i data-lucide="bell"></i>
-                    </button>
-                    <div id="notification-dropdown" class="dropdown">
-                        <!-- Notifications will be dynamically added here -->
-                    </div>
-                    <button id="toggle-profile-menu">
-                        <i data-lucide="user"></i>
-                    </button>
-                    <div id="profile-dropdown" class="dropdown">
-                        <a href="#">Profile</a>
-                        <a href="#">Settings</a>
-                        <a href="#">Logout</a>
-                    </div>
-                </div>
-            </header>
+      <!-- Main Content -->
+      <main id="main-content">
+        <!-- Cloud Toast Message -->
+        <div id="cloud-toast" class="cloud-toast" style="display: none">
+          <span id="cloud-toast-message"></span>
+          <button class="close-toast" onclick="closeCloudToast()">
+            &times;
+          </button>
+        </div>
+        <!-- Header -->
+        <header id="header">
+          <h2>Dashboard</h2>
+        </header>
+        <hr class="dashboard-separator" />
+        <!-- Page Content -->
+        <section id="page-content">
+          <!-- Dashboard View -->
+          <div id="dashboard-view">
+            <div class="dashboard-grid">
+              <div class="dashboard-card">
+                <i data-lucide="megaphone"></i>
+                <h3>Announcements</h3>
+                <p>Latest news and updates.</p>
+                <a href="#" class="card-button">View</a>
+              </div>
+              <div class="dashboard-card">
+                <i data-lucide="book-marked"></i>
+                <h3>Assignments</h3>
+                <p>Check your upcoming tasks.</p>
+                <a href="#" class="card-button">View</a>
+              </div>
+              <div class="dashboard-card">
+                <i data-lucide="newspaper"></i>
+                <h3>Newsletters</h3>
+                <p>Read the latest publications.</p>
+                <a href="#" class="card-button">View</a>
+              </div>
+              <div class="dashboard-card">
+                <i data-lucide="calendar-check"></i>
+                <h3>Attendance</h3>
+                <p>Track your presence.</p>
+                <a href="#" class="card-button">View</a>
+              </div>
+              <div class="dashboard-card">
+                <i data-lucide="book-open"></i>
+                <h3>Courses</h3>
+                <p>Explore your subjects.</p>
+                <a href="#" class="card-button">View</a>
+              </div>
+              <div class="dashboard-card">
+                <i data-lucide="graduation-cap"></i>
+                <h3>Grades</h3>
+                <p>Check your report card.</p>
+                <a href="#" class="card-button">View</a>
+              </div>
+            </div>
+          </div>
+          <!-- Profile View (initially hidden) -->
+          <div id="profile-view" style="display: none;">
+            <!-- Profile content will be injected here by JS -->
+          </div>
+        </section>
 
-            <!-- Page Content -->
-            <section id="page-content">
-                <!-- Content will be dynamically loaded here -->
-                <h1>Dashboard</h1>
-                <div id="user-info-below"></div>
-            </section>
-        </main>
+      </main>
     </div>
+
 
     <!-- JavaScript Functions -->
     <script>
-        async function displayUserData() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const email = urlParams.get('email');
-            const admission_number = urlParams.get('admission_number');
-            let name = urlParams.get('name');
+      let cloudToastTimeout;
+      let userInfo = {};
 
-            // Try to get the name from name.json using the email
-            if (email) {
-                try {
-                    const response = await fetch('name.json');
-                    const nameMap = await response.json();
-                    if (nameMap[email]) {
-                        name = nameMap[email];
-                    }
-                } catch (e) {
-                    console.error('Failed to fetch name.json', e);
-                }
+      function showCloudToast(message) {
+        const toast = document.getElementById("cloud-toast");
+        document.getElementById("cloud-toast-message").innerText = message;
+        toast.style.display = "flex";
+        toast.classList.remove("hide");
+        clearTimeout(cloudToastTimeout);
+        cloudToastTimeout = setTimeout(closeCloudToast, 3000);
+      }
+      function closeCloudToast() {
+        const toast = document.getElementById("cloud-toast");
+        toast.style.display = "none";
+        clearTimeout(cloudToastTimeout);
+      }
+
+      async function displayUserData() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get("email");
+        const admission_number = urlParams.get("admission_number");
+        let name = urlParams.get("name");
+
+        // Try to get the name from name.json using the email
+        if (email) {
+          try {
+            const response = await fetch("name.json");
+            const nameMap = await response.json();
+            if (nameMap[email]) {
+              name = nameMap[email];
             }
+          } catch (e) {
+            console.error("Failed to fetch name.json", e);
+          }
+        }
 
-            if (admission_number && name) {
-                document.getElementById('modal-welcome-message').innerText = `Welcome, ${name}`;
+        // Store user info for modal use
+        userInfo = { name, email, admission_number };
 
-                let userInfoHTML = `Admission Number: ${admission_number}<br>`;
+        if (admission_number && name) {
+          showCloudToast(`Welcome, ${name}`);
+        }
+      }
 
-                // Display all user data from URL parameters (except name and admission_number)
-                for (const [key, value] of urlParams.entries()) {
-                    if (key !== 'name' && key !== 'admission_number') {
-                        userInfoHTML += `${key}: ${value}<br>`;
-                    }
-                }
+      function toggleUserInfoModal() {
+        const modal = document.getElementById("user-info-modal");
+        if (!modal.classList.contains("show")) {
+          // Populate modal with user info
 
-                document.getElementById('login-info').innerHTML = userInfoHTML;
-                // Also show info below the Dashboard heading
-                document.getElementById('user-info-below').innerHTML = `
-                    <div style="margin-top:20px;padding:16px;background:#fff;border-radius:8px;box-shadow:0 2px 5px rgba(0,0,0,0.05);">
-                        <strong>Welcome, ${name}</strong><br>
-                        ${userInfoHTML}
+          let info = "";
+          if (userInfo.name)
+            info += `<strong>Name:</strong> ${userInfo.name}<br>`;
+          if (userInfo.email)
+            info += `<strong>Email:</strong> ${userInfo.email}<br>`;
+          if (userInfo.admission_number)
+            info += `<strong>Admission Number:</strong> ${userInfo.admission_number}<br>`;
+          document.getElementById("login-info").innerHTML =
+            info || "No user info found.";
+        }
+        modal.classList.toggle("show");
+      }
+
+      // Profile page HTML template
+      function getProfilePageHTML(userInfo) {
+        return `
+                <div class="profile-page">
+                    <div class="profile-info-card">
+                        <div class="profile-avatar" id="profile-avatar-upload">
+                            <input type="file" id="profile-picture-input" accept="image/*" style="display: none;">
+                            <label for="profile-picture-input" class="upload-label">Upload</label>
+                        </div>
+                        <div class="profile-details">
+                            <div><strong>Name:</strong> ${
+                              userInfo.name || "N/A"
+                            }</div>
+                            <div><strong>Email:</strong> ${
+                              userInfo.email || "N/A"
+                            }</div>
+                            <div><strong>Admission Number:</strong> ${
+                              userInfo.admission_number || "N/A"
+                            }</div>
+                        </div>
                     </div>
-                `;
-            } else {
-                document.getElementById('modal-welcome-message').innerText = 'No login information found or authentication failed.';
-                document.getElementById('login-info').innerText = '';
-                document.getElementById('user-info-below').innerText = '';
-            }
+                </div>
+            `;
+      }
+
+      function setupProfilePictureUpload() {
+        const profileAvatar = document.getElementById('profile-avatar-upload');
+        const profilePictureInput = document.getElementById('profile-picture-input');
+
+        // Load saved image from localStorage
+        const savedImage = localStorage.getItem('profilePicture');
+        if (savedImage) {
+          profileAvatar.style.backgroundImage = `url(${savedImage})`;
         }
 
-        function toggleUserInfoModal() {
-            const modal = document.getElementById('user-info-modal');
-            modal.classList.toggle('show');
-        }
+        profilePictureInput.addEventListener('change', function(event) {
+          const file = event.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              profileAvatar.style.backgroundImage = `url(${e.target.result})`;
+              localStorage.setItem('profilePicture', e.target.result);
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
 
-        window.onload = function() {
-            displayUserData();
-        };
+      // Navigation logic
+      document.addEventListener("DOMContentLoaded", function () {
+        const dashboardLink = document.getElementById("dashboard-link");
+        const profileLink = document.getElementById("profile-link");
+        const headerTitle = document.getElementById("header").querySelector("h2");
+
+        const dashboardView = document.getElementById("dashboard-view");
+        const profileView = document.getElementById("profile-view");
+
+        // Initial setup
+        lucide.createIcons(); // Render all icons on load
+
+        dashboardLink.addEventListener("click", function (e) {
+          e.preventDefault();
+          // Toggle active class
+          dashboardLink.classList.add("active");
+          profileLink.classList.remove("active");
+
+          // Update header
+          headerTitle.innerText = "Dashboard";
+
+          // Toggle views
+          dashboardView.style.display = "block";
+          profileView.style.display = "none";
+        });
+
+        profileLink.addEventListener("click", function (e) {
+          e.preventDefault();
+          // Toggle active class
+          dashboardLink.classList.remove("active");
+          profileLink.classList.add("active");
+
+          // Update header
+          headerTitle.innerText = "Profile";
+          
+          // Populate profile view
+          profileView.innerHTML = getProfilePageHTML(userInfo);
+          setupProfilePictureUpload(); // Call setup after content is injected
+
+          // Toggle views
+          dashboardView.style.display = "none";
+          profileView.style.display = "block";
+        });
+      });
+
+      window.onload = function () {
+        displayUserData();
+      };
+
+
     </script>
-</body>
+  </body>
 </html>
