@@ -12,10 +12,10 @@ We have worked tirelessly for the past month trying to pull up a first official 
 Though we experienced changing deadlines and difficulties, we finally pulled it off in **35 to 40 days**.
 More Updates coming soon
 
-##🔭Sneak Peak to update v0.1.1
+## 🔭Sneak Peak to update v0.1.1
 
-###Gui Changes
-###Edited Functionality
+### Gui Changes
+### Edited Functionality
 
 And more!
 Expected to release at 25th October, though beta version may come out in just a week in a specific subfolder, we'll drop the link here: NO LINK YET
