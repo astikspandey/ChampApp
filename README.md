@@ -1,9 +1,12 @@
-📢 Patch Notes v0.1.0 – First Official Release!
-🎉 Welcome to the first official update of ChampApp!
-Nothing major to see here just yet—but it’s a huge milestone for us!
+# 📝 Patch Notes v0.1.0
 
-🛠️ We've been working tirelessly over the past month to bring you this release. After battling shifting deadlines and a bunch of challenges, we’re proud to say:
+## 🎉 First Official Update of ChampApp
 
-💥 BAM! It’s here.
+This is the first official update of **ChampApp**.  
+Nothing much to see here.
 
-⏱️ It took us around 35 to 40 days of focused effort, and we finally pulled it off. This is just the beginning—thank you for being here from day one!
+## 🛠️ What We've Been Up To
+
+We have worked tirelessly for the past month trying to pull up a first official release, and now — **BAM! It's here**.
+
+Though we experienced changing deadlines and difficulties, we finally pulled it off in **35 to 40 days**.
