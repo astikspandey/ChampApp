@@ -21,4 +21,4 @@ And more!
 Expected to release at 25th October, though beta version may come out in just a week in a specific subfolder, we'll drop the link here: NO LINK YET
 
 
-By the way this is not our official code ofcourse, we wont publish our entire 2 dollar app open-sourced on github, this is just a simple demo file, our official proper site can be found here though it may be temporarily unavailabel till v1.0.0: htstps://maintanance.tiiny.site
+By the way this is not our official code ofcourse, we wont publish our entire 2 dollar app open-sourced on github, this is just a simple demo file, our official proper site can be found here though it may be temporarily unavailabel till v1.0.0: https://maintanance.tiiny.site
