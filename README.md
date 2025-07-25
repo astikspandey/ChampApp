@@ -6,4 +6,4 @@ Nothing major to see here just yet—but it’s a huge milestone for us!
 
 💥 BAM! It’s here.
 
-⏱️ It took us around 35 to 40 days of focused effort, and we finally pulled it off. This is just the beginning—thank you for being here from day one!
+⏱️ It took us around 35 to 40 days of focused effort, and we finally pulled it off. This is just the beginning—thank you for being here from day one!,
