@@ -5,7 +5,7 @@
 This is the first official update of **ChampApp**.  
 Nothing much to see here.
 
-<<<<<<< HEAD
+=======
 ⏱️ It took us around 35 to 40 days of focused effort, and we finally pulled it off. This is just the beginning—thank you for being here from day one!,
 =======
 ## 🛠️ What We've Been Up To
