@@ -1,28 +1,47 @@
-# 📝 Patch Notes v0.1.0
+# 📝 Patch Notes – v0.1.0
 
-## 🎉 First Official Update of ChampApp
+## 🎉 First Official Release of ChampApp
 
-This is the first official update of **ChampApp**.  
-Nothing much to see here.
+After 35–40 days of focused effort, we're thrilled to announce the **first official release of ChampApp**!
 
-=======
-⏱️ It took us around 35 to 40 days of focused effort, and we finally pulled it off. This is just the beginning—thank you for being here from day one!,
-=======
-## 🛠️ What We've Been Up To
+It wasn’t easy—we faced shifting deadlines, bugs, and late nights—but we finally did it. This is just the beginning. Thank you for supporting us from day one! 💖
 
-We have worked tirelessly for the past month trying to pull up a first official release, and now — **BAM! It's here**.
+---
 
-Though we experienced changing deadlines and difficulties, we finally pulled it off in **35 to 40 days**.
-More Updates coming soon
+## 🛠️ What We’ve Been Working On
 
-## 🔭Sneak Peak to update v0.1.1
+We spent the past month bringing together everything needed to launch ChampApp’s **v0.1.0**.
 
-### Gui Changes
-### Edited Functionality
+- ✅ Designed and built the core features
+- ✅ Set up the project structure
+- ✅ Prepped the codebase for future updates
 
-And more!
-Expected to release at 25th October, though beta version may come out in just a week in a specific subfolder, we'll drop the link here: NO LINK YET
+More updates are already in the pipeline. Stay tuned!
 
+---
 
-By the way this is not our official code ofcourse, we wont publish our entire 2 dollar app open-sourced on github, this is just a simple demo file, our official proper site can be found here though it may be temporarily unavailabel till v1.0.0: https://maintanance.tiiny.site
->>>>>>> fc66ccbef22dbe63331a07c6c9c65c89ea1e7875
+## 🔭 Sneak Peek – v0.1.1 Preview
+
+Coming Soon (ETA: **October 25**)  
+A beta version may be released earlier in a subfolder — we’ll drop the link here once ready.
+
+### What's planned:
+
+- 🎨 **GUI Changes**
+- 🧠 **Improved Functionality**
+- ...and more surprises!
+
+---
+
+## ⚠️ Quick Note
+
+This is **not** our official full code — we’re not open-sourcing the entire $2 app just yet 😉  
+This repository is a **demo version** of ChampApp for preview purposes only.
+
+To check out our main site (once v1.0.0 is ready), visit:  
+👉 https://maintanance.tiiny.site  
+(Note: Site may be temporarily unavailable until the next release.)
+
+---
+
+Thanks again for being part of our journey. Onward to v1.0.0! 🚀
